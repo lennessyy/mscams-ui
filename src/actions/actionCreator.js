@@ -53,4 +53,39 @@ function gotApplications(applications) {
     return { type: 'GET_APPLICATIONS', payload: applications }
 }
 
-export { authenticate, register, getApplications }
+/** Action creator for getting a single application */
+function getAppDetails(token, id) {
+    return async function (dispatch) {
+        try {
+            const appDetails = await MSCAMS.getApplicationDetails(token, id)
+
+            dispatch(gotAppDetails(appDetails))
+        } catch (e) {
+            console.log(e)
+        }
+    }
+}
+
+function gotAppDetails(appDetails) {
+    return { type: 'GET_APP_DETAILS', payload: appDetails }
+}
+
+/** Action creator for voting */
+function vote(token, id, vote) {
+    return async function (dispatch) {
+        try {
+            const voteInfo = await MSCAMS.vote(token, id, vote)
+
+            dispatch(castVote(voteInfo))
+        } catch (e) {
+            console.log(e)
+        }
+    }
+}
+
+// cast as in past tense
+function castVote(voteInfo) {
+    return { type: 'VOTE', payload: voteInfo }
+}
+
+export { authenticate, register, getApplications, getAppDetails, vote }

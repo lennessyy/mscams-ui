@@ -8,7 +8,7 @@ export default function Admin() {
     const dispatch = useDispatch()
     const token = useSelector(state => state.token)
     const applications = useSelector(state => state.applications)
-    if (!applications) {
+    if (!applications || applications.length === 0) {
         dispatch(getApplications(token))
         return <p>Loading</p>
     }

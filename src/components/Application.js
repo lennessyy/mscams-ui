@@ -5,6 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles({
     root: {
@@ -27,8 +28,15 @@ const useStyles = makeStyles({
     }
 });
 
-export default function Application({ event, event_date, status, applicant, submitted_at }) {
+
+
+export default function Application({ id, event, event_date, status, applicant, submitted_at }) {
     const classes = useStyles()
+    const history = useHistory()
+    const handleClick = () => {
+        history.push(`/applications/${id}`)
+    }
+
     return (
         <Card className={classes.root}>
             <CardContent>
@@ -46,7 +54,7 @@ export default function Application({ event, event_date, status, applicant, subm
                 </Typography>
             </CardContent>
             <CardActions className={classes.action}>
-                <Button size="small">{status}</Button>
+                <Button onClick={handleClick} size="small">{status}</Button>
             </CardActions>
         </Card>
     )

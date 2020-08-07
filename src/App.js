@@ -11,6 +11,7 @@ import { Route, NavLink, Switch } from 'react-router-dom'
 
 import Home from './components/Home'
 import Login from './components/Login'
+import GetApplicationDetails from './components/GetApplicationDetails';
 
 function App() {
   const useStyles = makeStyles((theme) => ({
@@ -49,6 +50,9 @@ function App() {
         </Route>
         <Route exact path='/login'>
           <Login />
+        </Route>
+        <Route exact path='/applications/:id'>
+          <GetApplicationDetails />
         </Route>
       </Switch>
     </div>

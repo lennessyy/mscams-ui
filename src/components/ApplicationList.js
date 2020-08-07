@@ -27,8 +27,8 @@ export default function ApplicationList({ applications }) {
     const classes = useStyles()
 
     return (
-        <Grid className={classes.root} items>
-            {applications.map(application => <Application event={application.event} event_date={application.event_date} status={application.status} applicant={application.applicant} submitted_at={application.submitted_at} />)}
+        <Grid className={classes.root} item>
+            {applications.map(application => <Application key={application.id} id={application.id} event={application.event} event_date={application.event_date} status={application.status} applicant={application.applicant} submitted_at={application.submitted_at} />)}
         </Grid>
     )
 }
