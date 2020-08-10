@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { authenticate, register } from '../actions/actionCreator'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { Paper, Button, ButtonGroup, Grid, TextField, Radio, RadioGroup, FormControl, FormControlLabel, FormLabel } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
 function Login() {
     const dispatch = useDispatch();
     const classes = useStyles();
-    const history = useHistory();
     const initialState = {
         username: '',
         password: '',
@@ -51,6 +51,8 @@ function Login() {
     }
     const [formData, setFormdata] = useState(initialState)
     const [view, setView] = useState('login')
+    const user = useSelector(state => state.user)
+    if (user) return (<Redirect to='/' />)
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -62,6 +64,7 @@ function Login() {
         })
     }
 
+
     const handleSubmit = (e) => {
         e.preventDefault()
         if (view === 'login') {
@@ -70,7 +73,6 @@ function Login() {
             dispatch(register(formData))
         }
         setFormdata(initialState)
-        history.push('/')
     }
 
     if (view === 'login') {

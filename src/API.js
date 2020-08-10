@@ -40,6 +40,40 @@ class MSCAMS {
         })
         return result.data.voted
     }
+
+    static async changeVote(token, id, vote) {
+        const result = await axios.put(`${BASE_URL}/applications/${id}/vote`, {
+            _token: token, vote: vote
+        })
+        return result.data.voted
+    }
+
+    static async getUser(token, username) {
+        const result = await axios.get(`${BASE_URL}/users/${username}`, {
+            params: {
+                _token: token
+            }
+        })
+        return result.data.user
+    }
+
+    static async submitApplication(token, event, event_date, description, budget, amount, category) {
+        amount = Number(amount)
+        const result = await axios.post(`${BASE_URL}/applications`, {
+            _token: token,
+            event, event_date, description, budget, amount, category
+        })
+        return result.data.application
+    }
+
+    static async editApplication(token, id, event, event_date, description, budget, amount, category) {
+        amount = Number(amount)
+        const result = await axios.patch(`${BASE_URL}/applications/${id}`, {
+            _token: token,
+            event, event_date, description, budget, amount, category
+        })
+        return result.data.application
+    }
 }
 
 export default MSCAMS

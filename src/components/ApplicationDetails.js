@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Grid, Paper, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Vote from './Vote'
 import { useSelector, useDispatch } from 'react-redux'
-import { vote } from '../actions/actionCreator'
+import { vote, changeVote } from '../actions/actionCreator'
+import ApplicationForm from './ApplicationForm'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,16 +40,58 @@ export default function ApplicationDetails({ application }) {
         event, event_date, description, budget } = application
     const votes = useSelector(state => state.fullApplications[id].votes)
     const token = useSelector(state => state._token)
+    const user = useSelector(state => state.user)
     const classes = useStyles()
-    const votesDisplay = votes.length ? votes.map(vote => <Vote key={vote.voter + vote.application_id} vote={vote} />) : 'No votes have come in yet'
+    const votesDisplay = votes && votes.length ? votes.map(vote => <Vote key={vote.voter + vote.application_id} vote={vote} />) : 'No votes have come in yet'
+
+    // determine if the user has voted
+    let notVoted = votes.every(vote => vote.voter !== user.username)
 
     const dispatch = useDispatch()
     const approve = () => {
-        dispatch(vote(token, id, true))
+        notVoted ? dispatch(vote(token, id, true)) : dispatch(changeVote(token, id, true))
     }
     const deny = () => {
-        dispatch(vote(token, id, false))
+        notVoted ? dispatch(vote(token, id, false)) : dispatch(changeVote(token, id, false))
     }
+    const toEdit = () => {
+        setEdit(true)
+    }
+
+    // 
+    const [voteView, setVoteView] = useState(notVoted ? 'toVote' : 'change')
+    const [edit, setEdit] = useState(false)
+
+    if (edit) return <ApplicationForm application={application} />
+
+    let voteButtons
+    if (voteView === 'toVote') {
+        voteButtons = (<Grid item xs={5}>
+            <Button onClick={approve} className={classes.button} variant='contained' color='primary'>Approve</Button>
+            <Button onClick={deny} className={classes.button} variant='contained' color='secondary'>Deny</Button>
+        </Grid>)
+    } else {
+        voteButtons = <Button onClick={() => setVoteView('toVote')} color='primary'>Change Vote</Button>
+    }
+
+    // admin portion
+    const adminOnly = (<>
+        <Grid item xs={12}><b>Votes:</b></Grid>
+        <Grid item xs={6}>
+            {votesDisplay}
+        </Grid>
+        {
+            voteButtons
+        } </>)
+
+    // non-admin    
+    const nonAdmin = (
+        <>
+            <Grid item xs={12} style={{ textAlign: 'right' }}>
+                <Button onClick={toEdit} className={classes.button} variant='contained' color='primary'>Edit</Button>
+            </Grid>
+        </>
+    )
 
     return (
         <Paper elevation={2} className={classes.root}>
@@ -70,14 +113,7 @@ export default function ApplicationDetails({ application }) {
                         {budget}
                     </Paper>
                 </Grid>
-                <Grid item xs={12}><b>Votes:</b></Grid>
-                <Grid item xs={6}>
-                    {votesDisplay}
-                </Grid>
-                <Grid item xs={5}>
-                    <Button onClick={approve} className={classes.button} variant='contained' color='primary'>Approve</Button>
-                    <Button onClick={deny} className={classes.button} variant='contained' color='secondary'>Deny</Button>
-                </Grid>
+                {user.category === 'admin' ? adminOnly : nonAdmin}
             </Grid>
         </Paper>
     )

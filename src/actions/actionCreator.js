@@ -11,7 +11,7 @@ function authenticate(username, password) {
 
             dispatch(gotToken(token))
         } catch (e) {
-            console.log(e)
+            dispatch({ type: 'Error', payload: e.message })
         }
     }
 }
@@ -30,7 +30,7 @@ function register(userData) {
             let { token } = res.data
             dispatch(gotToken(token))
         } catch (e) {
-            console.log(e)
+            dispatch({ type: 'Error', payload: e.message })
         }
     }
 }
@@ -44,7 +44,7 @@ function getApplications(token) {
             let applications = res
             dispatch(gotApplications(applications))
         } catch (e) {
-            console.log(e)
+            dispatch({ type: 'Error', payload: e.message })
         }
     }
 }
@@ -61,7 +61,7 @@ function getAppDetails(token, id) {
 
             dispatch(gotAppDetails(appDetails))
         } catch (e) {
-            console.log(e)
+            dispatch({ type: 'Error', payload: e.message })
         }
     }
 }
@@ -78,7 +78,19 @@ function vote(token, id, vote) {
 
             dispatch(castVote(voteInfo))
         } catch (e) {
-            console.log(e)
+            dispatch({ type: 'Error', payload: e.message })
+        }
+    }
+}
+
+function changeVote(token, id, vote) {
+    return async function (dispatch) {
+        try {
+            const voteInfo = await MSCAMS.changeVote(token, id, vote)
+
+            dispatch(changedVote(voteInfo))
+        } catch (e) {
+            dispatch({ type: 'Error', payload: e.message })
         }
     }
 }
@@ -88,4 +100,63 @@ function castVote(voteInfo) {
     return { type: 'VOTE', payload: voteInfo }
 }
 
-export { authenticate, register, getApplications, getAppDetails, vote }
+function changedVote(voteInfo) {
+    return { type: 'CHANGE_VOTE', payload: voteInfo }
+}
+
+// Get individual user and their apps
+function getUser(token, username) {
+    return async function (dispatch) {
+        try {
+            const userInfo = await MSCAMS.getUser(token, username)
+
+            dispatch(gotUser(userInfo))
+        } catch (e) {
+            dispatch({ type: 'Error', payload: e.message })
+        }
+    }
+}
+
+function gotUser(userInfo) {
+    return { type: 'GET_CURRENT_USER', payload: userInfo }
+}
+
+/** Submit an application */
+function submitApplication(token, event, event_date, amount, category, description, budget) {
+    return async function (dispatch) {
+        try {
+            const application = await MSCAMS.submitApplication(token, event, event_date, description, budget, amount, category)
+
+            dispatch(submittedApplication(application))
+        } catch (e) {
+            dispatch({ type: 'Error', payload: e.message })
+        }
+    }
+}
+
+function submittedApplication(application) {
+    return { type: 'SUBMIT_APPLICATION', payload: application }
+}
+
+function editApplication(token, id, event, event_date, amount, category, description, budget) {
+    return async function (dispatch) {
+        try {
+            const application = await MSCAMS.editApplication(token, id, event, event_date, description, budget, amount, category)
+
+            dispatch(editedApplication(application))
+        } catch (e) {
+            dispatch({ type: 'Error', payload: e.message })
+        }
+    }
+}
+
+function editedApplication(application) {
+    return { type: 'EDIT_APPLICATION', payload: application }
+}
+
+function resetAll() {
+    return { type: 'RESET_ALL' }
+}
+
+
+export { authenticate, register, getApplications, getAppDetails, vote, changeVote, getUser, submitApplication, editApplication, resetAll }

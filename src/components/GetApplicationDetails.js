@@ -14,7 +14,7 @@ export default function GetApplicationDetails() {
         if (!appDetails) {
             dispatch(getAppDetails(token, id))
         }
-    }, [appDetails, id, dispatch])
+    }, [appDetails, id, dispatch, token])
     if (!appDetails) return <p>Loading...</p>
 
     return (

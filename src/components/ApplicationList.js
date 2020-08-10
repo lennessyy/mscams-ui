@@ -8,7 +8,7 @@ const useStyles = makeStyles({
         overflowX: 'auto',
         flexDirection: 'row',
         display: 'flex',
-        minWidth: '100vw',
+        minWidth: '100%',
         '&::-webkit-scrollbar': {
             width: '0.4em'
         },
@@ -26,9 +26,10 @@ const useStyles = makeStyles({
 export default function ApplicationList({ applications }) {
     const classes = useStyles()
 
+    const applicationsDisplay = applications.length ? applications.map(application => <Application key={application.id} id={application.id} event={application.event} event_date={application.event_date} status={application.status} applicant={application.applicant} submitted_at={application.submitted_at} fname={application.first_name} lname={application.last_name} />) : 'You have not made an application'
     return (
         <Grid className={classes.root} item>
-            {applications.map(application => <Application key={application.id} id={application.id} event={application.event} event_date={application.event_date} status={application.status} applicant={application.applicant} submitted_at={application.submitted_at} />)}
+            {applicationsDisplay}
         </Grid>
     )
 }

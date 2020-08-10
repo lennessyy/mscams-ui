@@ -30,7 +30,7 @@ const useStyles = makeStyles({
 
 
 
-export default function Application({ id, event, event_date, status, applicant, submitted_at }) {
+export default function Application({ id, event, event_date, status, applicant, submitted_at, fname, lname }) {
     const classes = useStyles()
     const history = useHistory()
     const handleClick = () => {
@@ -50,7 +50,7 @@ export default function Application({ id, event, event_date, status, applicant, 
                     {event_date}
                 </Typography>
                 <Typography variant="body2" component="p">
-                    {applicant}
+                    {fname && lname ? fname + ' ' + lname : applicant}
                 </Typography>
             </CardContent>
             <CardActions className={classes.action}>
