@@ -22,19 +22,34 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
-export default function Admin() {
+export default function Admin({ status = 'open' }) {
     const dispatch = useDispatch()
     const token = useSelector(state => state.token)
+
     const applications = useSelector(state => state.applications)
     const classes = useStyles()
+
     if (!applications || applications.length === 0) {
-        dispatch(getApplications(token))
+        dispatch(getApplications(token, status))
         return <p>Loading</p>
     }
+
+    if (status === 'closed') {
+        if (applications.some(application => application.status === "open")) {
+            dispatch(getApplications(token, status))
+            return <p>Loading</p>
+        }
+    } else if (status === 'open') {
+        if (applications.some(application => application.status !== "open")) {
+            dispatch(getApplications(token, status))
+            return <p>Loading</p>
+        }
+    }
+
     const pdfApps = applications.filter(application => application.category === 'pdf')
     const clubApps = applications.filter(application => application.category === 'club')
 
-
+    const altView = status === 'open' ? (<NavLink to='/applications/closed'>View Closed</NavLink>) : (<NavLink to='/'>View Open</NavLink>)
     return (
         <Grid className={classes.root} container>
             <Grid item className={classes.category}>
@@ -48,7 +63,7 @@ export default function Admin() {
             <ApplicationList applications={clubApps} />
 
             <Grid item className={classes.category}>
-                <NavLink to='/applications/closed'>View Closed Applications</NavLink>
+                {altView}
             </Grid>
         </Grid>
     )

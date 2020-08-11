@@ -6,6 +6,7 @@ import Login from './components/Login'
 import NavBar from './components/NavBar'
 import GetApplicationDetails from './components/GetApplicationDetails';
 import ApplicationForm from './components/ApplicationForm';
+import Admin from './components/Admin'
 
 function App() {
 
@@ -22,6 +23,9 @@ function App() {
         </Route>
         <Route exact path='/applications/new'>
           <ApplicationForm />
+        </Route>
+        <Route exact path='/applications/closed'>
+          <Admin status='closed' />
         </Route>
         <Route exact path='/applications/:id'>
           <GetApplicationDetails />

@@ -50,9 +50,11 @@ export default function ApplicationDetails({ application }) {
     const dispatch = useDispatch()
     const approve = () => {
         notVoted ? dispatch(vote(token, id, true)) : dispatch(changeVote(token, id, true))
+        setVoteView('change')
     }
     const deny = () => {
         notVoted ? dispatch(vote(token, id, false)) : dispatch(changeVote(token, id, false))
+        setVoteView('change')
     }
     const toEdit = () => {
         setEdit(true)
@@ -77,7 +79,7 @@ export default function ApplicationDetails({ application }) {
     // admin portion
     const adminOnly = (<>
         <Grid item xs={12}><b>Votes:</b></Grid>
-        <Grid item xs={6}>
+        <Grid item style={{ display: 'flex' }} xs={6}>
             {votesDisplay}
         </Grid>
         {

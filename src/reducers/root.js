@@ -13,6 +13,9 @@ function rootReducer(state = INITIAL_STATE, action) {
             localStorage.setItem('user', JSON.stringify(action.payload.user))
             return { ...state, _token: action.payload.token, user: action.payload.user }
         case 'GET_APPLICATIONS':
+            if (action.payload.length === 0) {
+                return { ...state, applications: ['out'] }
+            }
             return { ...state, applications: action.payload }
         case 'GET_APP_DETAILS':
             let newFullApplications

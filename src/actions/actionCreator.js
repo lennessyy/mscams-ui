@@ -36,10 +36,10 @@ function register(userData) {
 }
 
 /** Action creator for getting applications */
-function getApplications(token) {
+function getApplications(token, status = 'open') {
     return async function (dispatch) {
         try {
-            const res = await MSCAMS.getApps(token)
+            const res = await MSCAMS.getApps(token, status)
 
             let applications = res
             dispatch(gotApplications(applications))

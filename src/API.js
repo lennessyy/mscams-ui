@@ -24,8 +24,8 @@ class MSCAMS {
         }
     }
 
-    static async getApps(token) {
-        const result = await axios.get(`${BASE_URL}/applications`, { params: { _token: token } })
+    static async getApps(token, status = 'open') {
+        const result = await axios.get(`${BASE_URL}/applications`, { params: { _token: token, status } })
         return result.data.applications
     }
 

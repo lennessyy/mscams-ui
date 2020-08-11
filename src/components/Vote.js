@@ -6,11 +6,13 @@ import { deepOrange, green } from '@material-ui/core/colors';
 const useStyles = makeStyles((theme) => ({
     pro: {
         color: 'white',
-        backgroundColor: green[500]
+        backgroundColor: green[500],
+        margin: theme.spacing(1)
     },
     con: {
         color: theme.palette.getContrastText(deepOrange[500]),
-        backgroundColor: deepOrange[500]
+        backgroundColor: deepOrange[500],
+        margin: theme.spacing(1)
     }
 }))
 

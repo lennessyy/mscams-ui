@@ -26,7 +26,14 @@ const useStyles = makeStyles({
 export default function ApplicationList({ applications }) {
     const classes = useStyles()
 
-    const applicationsDisplay = applications.length ? applications.map(application => <Application key={application.id} id={application.id} event={application.event} event_date={application.event_date} status={application.status} applicant={application.applicant} submitted_at={application.submitted_at} fname={application.first_name} lname={application.last_name} />) : 'You have not made an application'
+    let applicationsDisplay
+
+    if (applications[0] === 'out') {
+        applicationsDisplay = 'There are no applications'
+    } else {
+        applicationsDisplay = applications.length ? applications.map(application => <Application key={application.id} id={application.id} event={application.event} event_date={application.event_date} status={application.status} applicant={application.applicant} submitted_at={application.submitted_at} fname={application.first_name} lname={application.last_name} />) : 'You have not made an application'
+    }
+
     return (
         <Grid className={classes.root} item>
             {applicationsDisplay}
