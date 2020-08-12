@@ -8,7 +8,7 @@ const useStyles = makeStyles({
         overflowX: 'auto',
         flexDirection: 'row',
         display: 'flex',
-        minWidth: '100%',
+        minWidth: '95%',
         '&::-webkit-scrollbar': {
             width: '0.4em'
         },

@@ -10,7 +10,7 @@ function Homepage() {
     if (!user) {
         return <Redirect to="/login" />
     } else if (user.category === 'admin') return <Admin />
-    else if (user.category === 'student') return <StudentMain />
+    else if (user.category !== 'admin') return <StudentMain />
 }
 
 export default Homepage

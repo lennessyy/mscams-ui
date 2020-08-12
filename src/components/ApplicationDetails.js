@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ApplicationDetails({ application }) {
     const { id, category, amount, applicant,
-        event, event_date, description, budget } = application
+        event, event_date, description, budget, first_name, last_name } = application
     const votes = useSelector(state => state.fullApplications[id].votes)
     const token = useSelector(state => state._token)
     const user = useSelector(state => state.user)
@@ -100,7 +100,7 @@ export default function ApplicationDetails({ application }) {
             <Grid className={classes.details} container>
                 <Grid className={classes.title} item xs={12}>Application Details</Grid>
                 <Grid item xs={5}><b>Amount:</b> {amount}</Grid>
-                <Grid item xs={5}><b>Applicant:</b> {applicant}</Grid>
+                <Grid item xs={5}><b>Applicant:</b> {first_name + ' ' + last_name}</Grid>
                 <Grid item xs={5}><b>Event:</b> {event}</Grid>
                 <Grid item xs={5}><b>Event Date:</b> {event_date}</Grid>
                 <Grid item xs={12}><b>Description:</b></Grid>
