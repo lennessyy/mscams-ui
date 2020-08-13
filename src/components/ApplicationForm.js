@@ -35,7 +35,7 @@ export default function ApplicationForm({ application }) {
         budget: ''
     }
 
-    const [edit, setEdit] = useState(!!application)
+    const edit = !!application
     const [formData, setFormData] = useState(edit ? application : initialState)
 
 
@@ -63,50 +63,58 @@ export default function ApplicationForm({ application }) {
         history.push('/')
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        // if in edit state we call edit app
+        if (edit) {
+            editApp()
+        } else {
+            submit()
+        }
+    }
+
     const submitButton = (<Grid required item xs={12} className={classes.button}>
-        <Button onClick={submit}>Submit</Button>
+        <Button type='submit'>Submit</Button>
     </Grid>)
 
     const editButton = (<Grid required item xs={12} className={classes.button}>
-        <Button onClick={editApp}>Finish Editing</Button>
+        <Button type="submit">Finish Editing</Button>
     </Grid>)
 
     return (
-        <Grid className={classes.root} container>
-            <Grid item xs={12}>
-                <h1>New Application</h1>
-            </Grid>
+        <form onSubmit={handleSubmit}>
+            <Grid className={classes.root} container>
+                <Grid item xs={12}>
+                    <h1>New Application</h1>
+                </Grid>
 
 
-            <Grid item xs={12}>
-                <FormControl component="fieldset">
-                    <FormLabel component="legend">Category</FormLabel>
-                    <RadioGroup required row aria-label="category" name="category" value={formData.category} onChange={handleChange}>
-                        <FormControlLabel value="club" control={<Radio />} label="Club Funding" />
-                        <FormControlLabel value="pdf" control={<Radio />} label="Professional Development Funding" />
-                    </RadioGroup>
-                </FormControl>
+                <Grid item xs={12}>
+                    <FormControl component="fieldset">
+                        <FormLabel component="legend">Category</FormLabel>
+                        <RadioGroup required row aria-label="category" name="category" value={formData.category} onChange={handleChange}>
+                            <FormControlLabel value="club" control={<Radio />} label="Club Funding" />
+                            <FormControlLabel value="pdf" control={<Radio />} label="Professional Development Funding" />
+                        </RadioGroup>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                    <TextField required id="amount" onChange={handleChange} name='amount' label="Amount" type='number' value={formData.amount} />
+                </Grid>
+                <Grid item xs={4}>
+                    <TextField required id="event" onChange={handleChange} name='event' label="Event" value={formData.event} />
+                </Grid>
+                <Grid item xs={3}>
+                    <TextField required id="event_date" onChange={handleChange} name='event_date' value={formData.event_date} label="Event Date" helperText="MM/DD/YYYY" />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField required id="description" onChange={handleChange} name='description' value={formData.description} label="Description" multiline rowsMax={6} rows={6} fullWidth />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField required id="budget" onChange={handleChange} name='budget' value={formData.budget} label="Budget" multiline rowsMax={6} rows={6} fullWidth />
+                </Grid>
+                {edit ? editButton : submitButton}
             </Grid>
-            <Grid item xs={4}>
-                <TextField required id="amount" onChange={handleChange} name='amount' label="Amount" type='number' value={formData.amount} />
-            </Grid>
-            <Grid item xs={4}>
-                <TextField required id="event" onChange={handleChange} name='event' label="Event" value={formData.event} />
-            </Grid>
-            <Grid item xs={3}>
-                <TextField required id="event_date" onChange={handleChange} name='event_date' value={formData.event_date} label="Event Date" helperText="MM/DD/YYYY" />
-            </Grid>
-            <Grid item xs={12}>
-                <TextField required id="description" onChange={handleChange} name='description' value={formData.description} label="Description" multiline rowsMax={6} rows={6} fullWidth />
-            </Grid>
-            <Grid item xs={12}>
-                <TextField required id="budget" onChange={handleChange} name='budget' value={formData.budget} label="Budget" multiline rowsMax={6} rows={6} fullWidth />
-            </Grid>
-
-            {/* <Grid required item xs={12} className={classes.button}>
-                <Button onClick={submit}>Submit</Button>
-            </Grid> */}
-            {edit ? editButton : submitButton}
-        </Grid>
+        </form>
     )
 }

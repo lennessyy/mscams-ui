@@ -47,7 +47,8 @@ function Login() {
         first_name: '',
         last_name: '',
         email: '',
-        category: 'student'
+        category: 'student',
+        re_password: ''
     }
     const [formData, setFormdata] = useState(initialState)
     const [view, setView] = useState('login')
@@ -64,12 +65,14 @@ function Login() {
         })
     }
 
-
     const handleSubmit = (e) => {
         e.preventDefault()
         if (view === 'login') {
             dispatch(authenticate(formData.username, formData.password))
         } else if (view === 'signup') {
+            if (formData.password !== formData.re_password) {
+                return alert('Passwords must match')
+            }
             dispatch(register(formData))
         }
         setFormdata(initialState)
@@ -102,7 +105,8 @@ function Login() {
                 <Paper>
                     <TextField name='username' value={formData.username} onChange={handleChange} id="username" label="Username" />
                     <TextField type="password" id="password" name='password' value={formData.password} onChange={handleChange} label="Password" />
-                    <TextField type="email" id="email" name='email' value={formData.email} onChange={handleChange} label="email" />
+                    <TextField type="password" id="re_password" name='re_password' value={formData.re_password} onChange={handleChange} label="Re-enter password" />
+                    <TextField type="email" id="email" name='email' value={formData.email} onChange={handleChange} label="Email" />
                     <TextField id="first_name" name='first_name' value={formData.first_name} onChange={handleChange} label="First name" />
                     <TextField id="last_name" name='last_name' value={formData.last_name} onChange={handleChange} label="Last name" />
                     <FormControl style={{ margin: '1rem' }} component="fieldset">

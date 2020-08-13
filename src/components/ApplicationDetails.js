@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function ApplicationDetails({ application }) {
-    const { id, category, amount, applicant,
+    const { id, amount,
         event, event_date, description, budget, first_name, last_name } = application
     const votes = useSelector(state => state.fullApplications[id].votes)
     const token = useSelector(state => state._token)
@@ -45,7 +45,7 @@ export default function ApplicationDetails({ application }) {
     const votesDisplay = votes && votes.length ? votes.map(vote => <Vote key={vote.voter + vote.application_id} vote={vote} />) : 'No votes have come in yet'
 
     // determine if the user has voted
-    let notVoted = votes.every(vote => vote.voter !== user.username)
+    let notVoted = user && votes && votes.every(vote => vote.voter !== user.username)
 
     const dispatch = useDispatch()
     const approve = () => {
@@ -60,7 +60,7 @@ export default function ApplicationDetails({ application }) {
         setEdit(true)
     }
 
-    // 
+    // Determine the correct view to show user
     const [voteView, setVoteView] = useState(notVoted ? 'toVote' : 'change')
     const [edit, setEdit] = useState(false)
 
@@ -115,7 +115,7 @@ export default function ApplicationDetails({ application }) {
                         {budget}
                     </Paper>
                 </Grid>
-                {user.category === 'admin' ? adminOnly : nonAdmin}
+                {user && user.category === 'admin' ? adminOnly : nonAdmin}
             </Grid>
         </Paper>
     )

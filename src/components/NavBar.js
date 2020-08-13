@@ -3,7 +3,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
-import { NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelector, useDispatch } from 'react-redux'
 import { resetAll } from '../actions/actionCreator'
@@ -30,9 +30,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function NavBar() {
+    const history = useHistory()
     const classes = useStyles()
     const user = useSelector(state => state.user)
     const reset = () => {
+        history.push('/')
         dispatch(resetAll())
     }
 
@@ -46,7 +48,7 @@ export default function NavBar() {
         <AppBar className={classes.nav} position="static">
             <Toolbar>
                 <Typography variant="h6" className={classes.title}>
-                    <img style={{ width: '40px' }} src='../middlogo.png' />
+                    <img style={{ width: '40px' }} src='../middlogo.png' alt="Middlebury logo" />
                     <NavLink style={{ textDecoration: 'none', color: 'white' }} to="/">MSCAMS</NavLink>
                 </Typography>
                 {user ? logout : login}

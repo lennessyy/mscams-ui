@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Admin({ status = 'open' }) {
     const dispatch = useDispatch()
-    const token = useSelector(state => state.token)
+    const token = useSelector(state => state._token)
 
     const applications = useSelector(state => state.applications)
     const classes = useStyles()
