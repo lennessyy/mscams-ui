@@ -5,6 +5,7 @@ import { getApplications } from '../actions/actionCreator'
 import ApplicationList from './ApplicationList'
 import { makeStyles } from '@material-ui/core/styles'
 import { NavLink } from 'react-router-dom'
+import Loading from './Loading'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -31,7 +32,7 @@ export default function Admin({ status = 'open' }) {
 
     if (!applications || applications.length === 0) {
         dispatch(getApplications(token, status))
-        return <p>Loading</p>
+        return <Loading />
     }
 
     if (status === 'closed') {

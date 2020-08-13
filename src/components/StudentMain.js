@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import ApplicationList from './ApplicationList'
 import { getUser } from '../actions/actionCreator'
 import { useHistory } from 'react-router-dom'
+import Loading from './Loading'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -41,7 +42,7 @@ export default function StudentMain() {
 
     if (!userDetails) {
         dispatch(getUser(token, user.username))
-        return <p>Loading...</p>
+        return <Loading />
     }
 
     return (
