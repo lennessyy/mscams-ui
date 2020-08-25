@@ -87,8 +87,8 @@ function Login() {
                         <Button>Log in</Button>
                     </ButtonGroup>
                     <Paper>
-                        <TextField name='username' value={formData.username} onChange={handleChange} id="username" label="Username" />
-                        <TextField type="password" id="password" name='password' value={formData.password} onChange={handleChange} label="Password" />
+                        <TextField required name='username' value={formData.username} onChange={handleChange} id="username" label="Username" />
+                        <TextField required type="password" id="password" name='password' value={formData.password} onChange={handleChange} label="Password" />
                         <Button type="submit" id="login" color="primary">Login</Button>
                     </Paper>
                 </form>
@@ -103,15 +103,15 @@ function Login() {
                     <Button onClick={() => setView('login')}>Log in</Button>
                 </ButtonGroup>
                 <Paper>
-                    <TextField name='username' value={formData.username} onChange={handleChange} id="username" label="Username" />
-                    <TextField type="password" id="password" name='password' value={formData.password} onChange={handleChange} label="Password" />
-                    <TextField type="password" id="re_password" name='re_password' value={formData.re_password} onChange={handleChange} label="Re-enter password" />
-                    <TextField type="email" id="email" name='email' value={formData.email} onChange={handleChange} label="Email" />
-                    <TextField id="first_name" name='first_name' value={formData.first_name} onChange={handleChange} label="First name" />
-                    <TextField id="last_name" name='last_name' value={formData.last_name} onChange={handleChange} label="Last name" />
+                    <TextField required name='username' value={formData.username} onChange={handleChange} id="username" label="Username" />
+                    <TextField required type="password" id="password" name='password' value={formData.password} onChange={handleChange} label="Password" />
+                    <TextField required type="password" id="re_password" name='re_password' value={formData.re_password} onChange={handleChange} label="Re-enter password" />
+                    <TextField required type="email" id="email" name='email' value={formData.email} onChange={handleChange} label="Email" />
+                    <TextField required id="first_name" name='first_name' value={formData.first_name} onChange={handleChange} label="First name" />
+                    <TextField required id="last_name" name='last_name' value={formData.last_name} onChange={handleChange} label="Last name" />
                     <FormControl style={{ margin: '1rem' }} component="fieldset">
                         <FormLabel component="legend">Account type</FormLabel>
-                        <RadioGroup className={classes.radioGroup} aria-label="Category" name="category" value={formData.category} onChange={handleChange}>
+                        <RadioGroup className={classes.radioGroup} required aria-label="Category" name="category" value={formData.category} onChange={handleChange}>
                             <FormControlLabel value="student" control={<Radio />} label="Student" />
                             <FormControlLabel value="club" control={<Radio />} label="Club" />
                         </RadioGroup>
