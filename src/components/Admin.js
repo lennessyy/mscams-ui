@@ -38,12 +38,12 @@ export default function Admin({ status = 'open' }) {
     if (status === 'closed') {
         if (applications.some(application => application.status === "open")) {
             dispatch(getApplications(token, status))
-            return <p>Loading</p>
+            return <Loading />
         }
     } else if (status === 'open') {
         if (applications.some(application => application.status !== "open")) {
             dispatch(getApplications(token, status))
-            return <p>Loading</p>
+            return <Loading />
         }
     }
 

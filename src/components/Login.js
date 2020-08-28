@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom'
 import { Paper, Button, ButtonGroup, Grid, TextField, Radio, RadioGroup, FormControl, FormControlLabel, FormLabel } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelector } from 'react-redux'
+import Loading from './Loading'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,6 +54,11 @@ function Login() {
     const [formData, setFormdata] = useState(initialState)
     const [view, setView] = useState('login')
     const user = useSelector(state => state.user)
+    const isFetching = useSelector(state => state.isFetching)
+
+    if (isFetching) {
+        return <Loading />
+    }
     if (user) return (<Redirect to='/' />)
 
     const handleChange = (e) => {

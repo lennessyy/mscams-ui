@@ -3,16 +3,14 @@ import jwt from 'jsonwebtoken'
 
 /** Action creator for authentication */
 function authenticate(username, password) {
-    return async function (dispatch) {
-        try {
-            const res = await MSCAMS.authenticate(username, password)
-
+    return function (dispatch) {
+        dispatch({ type: 'FETCHING' })
+        MSCAMS.authenticate(username, password).then(res => {
             let { token } = res.data
-
             dispatch(gotToken(token))
-        } catch (e) {
+        }).catch(e => {
             dispatch({ type: 'Error', payload: e.message })
-        }
+        })
     }
 }
 
@@ -23,29 +21,27 @@ function gotToken(token) {
 
 /** Action creator for registration */
 function register(userData) {
-    return async function (dispatch) {
-        try {
-            const res = await MSCAMS.register(userData)
-
+    return function (dispatch) {
+        dispatch({ type: "FETCHING" })
+        MSCAMS.register(userData).then(res => {
             let { token } = res.data
             dispatch(gotToken(token))
-        } catch (e) {
+        }).catch(e => {
             dispatch({ type: 'Error', payload: e.message })
-        }
+        })
     }
 }
 
 /** Action creator for getting applications */
 function getApplications(token, status = 'open') {
-    return async function (dispatch) {
-        try {
-            const res = await MSCAMS.getApps(token, status)
-
+    return function (dispatch) {
+        dispatch({ type: 'GET_APPLICATIONS_REQUEST' });
+        MSCAMS.getApps(token, status).then((res) => {
             let applications = res
             dispatch(gotApplications(applications))
-        } catch (e) {
+        }).catch((e) => {
             dispatch({ type: 'Error', payload: e.message })
-        }
+        })
     }
 }
 
@@ -123,14 +119,13 @@ function gotUser(userInfo) {
 
 /** Submit an application */
 function submitApplication(token, event, event_date, amount, category, description, budget) {
-    return async function (dispatch) {
-        try {
-            const application = await MSCAMS.submitApplication(token, event, event_date, description, budget, amount, category)
-
+    return function (dispatch) {
+        dispatch({ type: "FETCHING" })
+        MSCAMS.submitApplication(token, event, event_date, description, budget, amount, category).then(application => {
             dispatch(submittedApplication(application))
-        } catch (e) {
+        }).catch(e => {
             dispatch({ type: 'Error', payload: e.message })
-        }
+        })
     }
 }
 
@@ -139,19 +134,18 @@ function submittedApplication(application) {
 }
 
 function editApplication(token, id, event, event_date, amount, category, description, budget) {
-    return async function (dispatch) {
-        try {
-            const application = await MSCAMS.editApplication(token, id, event, event_date, description, budget, amount, category)
-
+    return function (dispatch) {
+        dispatch({ type: "FETCHING" })
+        MSCAMS.editApplication(token, id, event, event_date, description, budget, amount, category).then(application => {
             dispatch(editedApplication(application))
-        } catch (e) {
+        }).catch(e => {
             dispatch({ type: 'Error', payload: e.message })
-        }
+        })
     }
 }
 
 function editedApplication(application) {
-    return { type: 'EDIT_APPLICATION', payload: application }
+    return { type: 'EDIT_APPLICATION_SUCCESS', payload: application }
 }
 
 function resetAll() {

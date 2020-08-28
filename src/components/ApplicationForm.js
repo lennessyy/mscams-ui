@@ -3,7 +3,7 @@ import { Grid, TextField, FormLabel, FormControlLabel, Radio, RadioGroup, FormCo
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelector, useDispatch } from 'react-redux'
 import { submitApplication, editApplication } from '../actions/actionCreator'
-import { useHistory } from 'react-router-dom'
+import Loading from './Loading'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -52,15 +52,13 @@ export default function ApplicationForm({ application }) {
     const classes = useStyles()
     const dispatch = useDispatch()
     const token = useSelector(state => state._token)
-    const history = useHistory()
+    const isFetching = useSelector(state => state.isFetching)
 
     const submit = () => {
         dispatch(submitApplication(token, formData.event, formData.event_date, formData.amount, formData.category, formData.description, formData.budget))
-        history.push('/')
     }
     const editApp = () => {
         dispatch(editApplication(token, application.id, formData.event, formData.event_date, formData.amount, formData.category, formData.description, formData.budget))
-        history.push('/')
     }
 
     const handleSubmit = (e) => {
@@ -71,6 +69,10 @@ export default function ApplicationForm({ application }) {
         } else {
             submit()
         }
+    }
+
+    if (isFetching) {
+        return <Loading />
     }
 
     const submitButton = (<Grid required item xs={12} className={classes.button}>

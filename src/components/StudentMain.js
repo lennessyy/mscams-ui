@@ -4,7 +4,7 @@ import { Grid, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import ApplicationList from './ApplicationList'
 import { getUser } from '../actions/actionCreator'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Redirect } from 'react-router-dom'
 import Loading from './Loading'
 
 const useStyles = makeStyles(theme => ({
@@ -41,6 +41,9 @@ export default function StudentMain() {
     const history = useHistory()
 
     if (!userDetails) {
+        if (!user) {
+            return <Redirect to="/login" />
+        }
         dispatch(getUser(token, user.username))
         return <Loading />
     }
