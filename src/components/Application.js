@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles({
     root: {
@@ -36,12 +37,12 @@ export default function Application({ id, event, event_date, status, applicant, 
     const handleClick = () => {
         history.push(`/applications/${id}`)
     }
-
+    const { t } = useTranslation()
     return (
         <Card className={classes.root}>
             <CardContent>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    Submitted at: {submitted_at.slice(0, 10)}
+                    {t('Submitted at')}: {submitted_at.slice(0, 10)}
                 </Typography>
                 <Typography variant="h5" component="h2">
                     {event}
@@ -54,7 +55,7 @@ export default function Application({ id, event, event_date, status, applicant, 
                 </Typography>
             </CardContent>
             <CardActions className={classes.action}>
-                <Button onClick={handleClick} size="small">{status}</Button>
+                <Button onClick={handleClick} size="small">{t(status)}</Button>
             </CardActions>
         </Card>
     )

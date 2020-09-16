@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { Grid, TextField, FormLabel, FormControlLabel, Radio, RadioGroup, FormControl, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelector, useDispatch } from 'react-redux'
 import { submitApplication, editApplication } from '../actions/actionCreator'
 import Loading from './Loading'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-export default function ApplicationForm({ application }) {
+function ApplicationFormComponent({ application }) {
     const initialState = {
         category: '',
         amount: '',
@@ -37,6 +38,7 @@ export default function ApplicationForm({ application }) {
 
     const edit = !!application
     const [formData, setFormData] = useState(edit ? application : initialState)
+    const { t } = useTranslation()
 
 
     const handleChange = (e) => {
@@ -93,30 +95,36 @@ export default function ApplicationForm({ application }) {
 
                 <Grid item xs={12}>
                     <FormControl component="fieldset">
-                        <FormLabel component="legend">Category</FormLabel>
+                        <FormLabel component="legend">{t('Category')}</FormLabel>
                         <RadioGroup required row aria-label="category" name="category" value={formData.category} onChange={handleChange}>
-                            <FormControlLabel value="club" control={<Radio />} label="Club Funding" />
-                            <FormControlLabel value="pdf" control={<Radio />} label="Professional Development Funding" />
+                            <FormControlLabel value="club" control={<Radio />} label={t("Club Funding")} />
+                            <FormControlLabel value="pdf" control={<Radio />} label={t("Professional Development Funding")} />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
                 <Grid item xs={4}>
-                    <TextField required id="amount" onChange={handleChange} name='amount' label="Amount" type='number' value={formData.amount} />
+                    <TextField required id="amount" onChange={handleChange} name='amount' label={t("Amount")} type='number' value={formData.amount} />
                 </Grid>
                 <Grid item xs={4}>
-                    <TextField required id="event" onChange={handleChange} name='event' label="Event" value={formData.event} />
+                    <TextField required id="event" onChange={handleChange} name='event' label={t("Event")} value={formData.event} />
                 </Grid>
                 <Grid item xs={3}>
-                    <TextField required id="event_date" onChange={handleChange} name='event_date' value={formData.event_date} label="Event Date" helperText="MM/DD/YYYY" />
+                    <TextField required id="event_date" onChange={handleChange} name='event_date' value={formData.event_date} label={t("Event Date")} helperText="MM/DD/YYYY" />
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField required id="description" onChange={handleChange} name='description' value={formData.description} label="Description" multiline rowsMax={6} rows={6} fullWidth />
+                    <TextField required id="description" onChange={handleChange} name='description' value={formData.description} label={t("Description")} multiline rowsMax={6} rows={6} fullWidth />
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField required id="budget" onChange={handleChange} name='budget' value={formData.budget} label="Budget" multiline rowsMax={6} rows={6} fullWidth />
+                    <TextField required id="budget" onChange={handleChange} name='budget' value={formData.budget} label={t("Budget")} multiline rowsMax={6} rows={6} fullWidth />
                 </Grid>
                 {edit ? editButton : submitButton}
             </Grid>
         </form>
     )
+}
+
+export default function ApplicationForm({ application }) {
+    return (<Suspense fallback="en">
+        <ApplicationFormComponent application={application} />
+    </Suspense>)
 }

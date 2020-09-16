@@ -1,0 +1,23 @@
+{
+    "title": "Welcome to react using react-i18next",
+    "description": {
+        "part1": "To get started, edit <1>src/App.js</1> and save to reload.",
+        "part2": "Switch language between english and german using buttons above."
+    },
+    "Professional Development Fund Applications": "职业发展资金申请",
+    "Club Funding Applications": "社团资金申请",
+    "Submitted at": "提交于",
+    "open": "处理中",
+    "Club Funding": "社团资金",
+    "Professional Development Funding": "职业发展资金",
+    "Welcome,": "欢迎，",
+    "My Applications": "我的申请",
+    "New Application": "新建申请",
+    "Application Details": "申请细节",
+    "Amount": "金额",
+    "Event": "活动名称",
+    "Applicant": "申请人",
+    "Event Date": "活动日期",
+    "Description": "活动简要",
+    "Budget": "活动预算"
+}

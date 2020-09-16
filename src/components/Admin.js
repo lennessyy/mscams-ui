@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Grid } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { getApplications } from '../actions/actionCreator'
@@ -6,6 +6,7 @@ import ApplicationList from './ApplicationList'
 import { makeStyles } from '@material-ui/core/styles'
 import { NavLink } from 'react-router-dom'
 import Loading from './Loading'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -23,19 +24,22 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
-export default function Admin({ status = 'open' }) {
+function AdminComponent({ status = 'open' }) {
     const dispatch = useDispatch()
     const token = useSelector(state => state._token)
 
     const applications = useSelector(state => state.applications)
     const classes = useStyles()
+    const { t } = useTranslation()
 
     if (!applications || applications.length === 0) {
         dispatch(getApplications(token, status))
         return <Loading />
     }
 
+    // If we are viewing closed applications
     if (status === 'closed') {
+        // Get new applications if the curr applications aren't closed apps
         if (applications.some(application => application.status === "open")) {
             dispatch(getApplications(token, status))
             return <Loading />
@@ -54,12 +58,12 @@ export default function Admin({ status = 'open' }) {
     return (
         <Grid className={classes.root} container>
             <Grid item className={classes.category}>
-                <h3>Professional Development Fund Applications:</h3>
+                <h3>{t('Professional Development Fund Applications')}:</h3>
             </Grid>
             <ApplicationList applications={pdfApps} />
 
             <Grid item className={classes.category}>
-                <h3>Club Funding Applications</h3>
+                <h3>{t('Club Funding Applications')}:</h3>
             </Grid>
             <ApplicationList applications={clubApps} />
 
@@ -69,3 +73,9 @@ export default function Admin({ status = 'open' }) {
         </Grid>
     )
 }
+
+export default function App() {
+    return (<Suspense fallback="loading">
+        <AdminComponent />
+    </Suspense>)
+} 

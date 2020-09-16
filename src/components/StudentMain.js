@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Grid, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
@@ -6,6 +6,7 @@ import ApplicationList from './ApplicationList'
 import { getUser } from '../actions/actionCreator'
 import { useHistory, Redirect } from 'react-router-dom'
 import Loading from './Loading'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -32,13 +33,14 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-export default function StudentMain() {
+function StudentMainComponent() {
     const token = useSelector(state => state._token)
     const user = useSelector(state => state.user)
     const userDetails = useSelector(state => state.currentUser)
     const classes = useStyles()
     const dispatch = useDispatch()
     const history = useHistory()
+    const { t } = useTranslation()
 
     if (!userDetails) {
         if (!user) {
@@ -51,13 +53,21 @@ export default function StudentMain() {
     return (
         <Grid className={classes.root} container>
             <Grid className={classes.header} item xs={10}>
-                Welcome, {userDetails.first_name}
+                {t('Welcome,')} {userDetails.first_name}
             </Grid>
             <Grid className={classes.applications} item xs={10}>
-                <h3 style={{ display: 'inline-block' }}>My applications:</h3>
-                <Button onClick={() => history.push('/applications/new')} variant='contained'> New Application </Button>
+                <h3 style={{ display: 'inline-block' }}>{t('My Applications')}</h3>
+                < Button onClick={() => history.push('/applications/new')} variant='contained'> {t('New Application')} </Button>
                 <ApplicationList applications={userDetails.applications} />
             </Grid>
         </Grid>
     )
 }
+
+export default function StudentMain() {
+    return (
+        <Suspense fallback='en'>
+            <StudentMainComponent />
+        </Suspense>
+    )
+} 
