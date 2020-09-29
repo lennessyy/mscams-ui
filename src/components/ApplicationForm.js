@@ -83,11 +83,11 @@ function ApplicationFormComponent({ application }) {
     }
 
     const submitButton = (<Grid required item xs={12} className={classes.button}>
-        <Button type='submit'>Submit</Button>
+        <Button type='submit'>{t('Submit')}</Button>
     </Grid>)
 
     const editButton = (<Grid required item xs={12} className={classes.button}>
-        <Button type="submit">Finish Editing</Button>
+        <Button type="submit">{t('Finish Editing')}</Button>
     </Grid>)
 
     return (

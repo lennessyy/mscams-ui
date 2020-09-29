@@ -27,5 +27,12 @@
     "First name": "名",
     "Last name": "姓",
     "Student": "学生",
-    "Club": "社团"
+    "Club": "社团",
+    "Edit": "编辑",
+    "Finish Editing": "完成",
+    "Approve": "通过",
+    "Deny": "否决",
+    "Change Vote": "改票",
+    "Votes": "票况",
+    "No votes have come in yet": "目前还没有人投票"
 }

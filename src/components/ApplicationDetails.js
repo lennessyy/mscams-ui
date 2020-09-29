@@ -81,7 +81,7 @@ function ApplicationDetailsComponent({ application }) {
 
     // admin portion
     const adminOnly = (<>
-        <Grid item xs={12}><b>Votes:</b></Grid>
+        <Grid item xs={12}><b>{t('Votes')}:</b></Grid>
         <Grid item style={{ display: 'flex' }} xs={6}>
             {votesDisplay}
         </Grid>
@@ -93,7 +93,7 @@ function ApplicationDetailsComponent({ application }) {
     const nonAdmin = (
         <>
             <Grid item xs={12} style={{ textAlign: 'right' }}>
-                <Button onClick={toEdit} className={classes.button} variant='contained' color='primary'>Edit</Button>
+                <Button onClick={toEdit} className={classes.button} variant='contained' color='primary'>{t('Edit')}</Button>
             </Grid>
         </>
     )
