@@ -74,8 +74,8 @@ function AdminComponent({ status = 'open' }) {
     )
 }
 
-export default function App() {
+export default function App({ status = "open" }) {
     return (<Suspense fallback="loading">
-        <AdminComponent />
+        <AdminComponent status={status} />
     </Suspense>)
 } 
