@@ -54,7 +54,7 @@ function AdminComponent({ status = 'open' }) {
     const pdfApps = applications.filter(application => application.category === 'pdf')
     const clubApps = applications.filter(application => application.category === 'club')
 
-    const altView = status === 'open' ? (<NavLink to='/applications/closed'>View Closed</NavLink>) : (<NavLink to='/'>View Open</NavLink>)
+    const altView = status === 'open' ? (<NavLink to='/applications/closed'>{t('View Closed')}</NavLink>) : (<NavLink to='/'>{t('View Open')}</NavLink>)
     return (
         <Grid className={classes.root} container>
             <Grid item className={classes.category}>
