@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { submitApplication, editApplication } from '../actions/actionCreator'
 import Loading from './Loading'
 import { useTranslation } from 'react-i18next'
+import { validateDate } from '../dateHelpers'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -66,6 +67,10 @@ function ApplicationFormComponent({ application }) {
     const handleSubmit = (e) => {
         e.preventDefault()
         // if in edit state we call edit app
+        if (!validateDate(formData.event_date)) {
+            return alert('Please use the correct data format')
+        }
+
         if (edit) {
             editApp()
         } else {
@@ -89,7 +94,7 @@ function ApplicationFormComponent({ application }) {
         <form onSubmit={handleSubmit}>
             <Grid className={classes.root} container>
                 <Grid item xs={12}>
-                    <h1>New Application</h1>
+                    <h1>{t('New Application')}</h1>
                 </Grid>
 
 

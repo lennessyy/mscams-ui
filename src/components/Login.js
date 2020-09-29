@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Suspense } from 'react'
 import { authenticate, register } from '../actions/actionCreator'
 import { useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom'
@@ -6,6 +6,7 @@ import { Paper, Button, ButtonGroup, Grid, TextField, Radio, RadioGroup, FormCon
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelector } from 'react-redux'
 import Loading from './Loading'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Login() {
+function LoginComponent() {
     const dispatch = useDispatch();
     const classes = useStyles();
     const initialState = {
@@ -55,6 +56,7 @@ function Login() {
     const [view, setView] = useState('login')
     const user = useSelector(state => state.user)
     const isFetching = useSelector(state => state.isFetching)
+    const { t } = useTranslation()
 
     if (isFetching) {
         return <Loading />
@@ -77,7 +79,7 @@ function Login() {
             dispatch(authenticate(formData.username, formData.password))
         } else if (view === 'signup') {
             if (formData.password !== formData.re_password) {
-                return alert('Passwords must match')
+                return alert(t('Passwords must match'))
             }
             dispatch(register(formData))
         }
@@ -89,13 +91,13 @@ function Login() {
             <Grid className={classes.root}>
                 <form onSubmit={handleSubmit} className={classes.form}>
                     <ButtonGroup color="primary" aria-label="outlined primary button group">
-                        <Button onClick={() => setView('signup')}>Sign Up</Button>
-                        <Button>Log in</Button>
+                        <Button onClick={() => setView('signup')}>{t('Sign Up')}</Button>
+                        <Button>{t('Log in')}</Button>
                     </ButtonGroup>
                     <Paper>
-                        <TextField required name='username' value={formData.username} onChange={handleChange} id="username" label="Username" />
-                        <TextField required type="password" id="password" name='password' value={formData.password} onChange={handleChange} label="Password" />
-                        <Button type="submit" id="login" color="primary">Login</Button>
+                        <TextField required name='username' value={formData.username} onChange={handleChange} id="username" label={t("Username")} />
+                        <TextField required type="password" id="password" name='password' value={formData.password} onChange={handleChange} label={t("Password")} />
+                        <Button type="submit" id="login" color="primary">{t('Login')}</Button>
                     </Paper>
                 </form>
             </Grid>
@@ -105,29 +107,35 @@ function Login() {
 
             <form onSubmit={handleSubmit} className={classes.form}>
                 <ButtonGroup color="primary" aria-label="outlined primary button group">
-                    <Button>Sign Up</Button>
-                    <Button onClick={() => setView('login')}>Log in</Button>
+                    <Button>{t('Sign Up')}</Button>
+                    <Button onClick={() => setView('login')}>{t('Log in')}</Button>
                 </ButtonGroup>
                 <Paper>
-                    <TextField required name='username' value={formData.username} onChange={handleChange} id="username" label="Username" />
-                    <TextField required type="password" id="password" name='password' value={formData.password} onChange={handleChange} label="Password" />
+                    <TextField required name='username' value={formData.username} onChange={handleChange} id="username" label={t("Username")} />
+                    <TextField required type="password" id="password" name='password' value={formData.password} onChange={handleChange} label={t("Password")} />
                     <TextField required type="password" id="re_password" name='re_password' value={formData.re_password} onChange={handleChange} label="Re-enter password" />
-                    <TextField required type="email" id="email" name='email' value={formData.email} onChange={handleChange} label="Email" />
-                    <TextField required id="first_name" name='first_name' value={formData.first_name} onChange={handleChange} label="First name" />
-                    <TextField required id="last_name" name='last_name' value={formData.last_name} onChange={handleChange} label="Last name" />
+                    <TextField required type="email" id="email" name='email' value={formData.email} onChange={handleChange} label={t("Email")} />
+                    <TextField required id="first_name" name='first_name' value={formData.first_name} onChange={handleChange} label={t("First name")} />
+                    <TextField required id="last_name" name='last_name' value={formData.last_name} onChange={handleChange} label={t("Last name")} />
                     <FormControl style={{ margin: '1rem' }} component="fieldset">
-                        <FormLabel component="legend">Account type</FormLabel>
-                        <RadioGroup className={classes.radioGroup} required aria-label="Category" name="category" value={formData.category} onChange={handleChange}>
-                            <FormControlLabel value="student" control={<Radio />} label="Student" />
-                            <FormControlLabel value="club" control={<Radio />} label="Club" />
+                        <FormLabel component="legend">{t('Account type')}</FormLabel>
+                        <RadioGroup className={classes.radioGroup} required aria-label={t("Category")} name="category" value={formData.category} onChange={handleChange}>
+                            <FormControlLabel value="student" control={<Radio />} label={t("Student")} />
+                            <FormControlLabel value="club" control={<Radio />} label={t("Club")} />
                         </RadioGroup>
                     </FormControl>
-                    <Button type="submit" id="signup" color="primary">Sign Up</Button>
+                    <Button type="submit" id="signup" color="primary">{t('Sign Up')}</Button>
                 </Paper>
             </form>
         </Grid>
     )
 
+}
+
+function Login() {
+    return (<Suspense fallback="en">
+        <LoginComponent />
+    </Suspense>)
 }
 
 export default Login

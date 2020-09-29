@@ -38,13 +38,11 @@ function NavBarComponent() {
         history.push('/')
         dispatch(resetAll())
     }
-    const { i18n } = useTranslation()
-    const changeLanguage = lng => {
-        i18n.changeLanguage(lng);
-    };
+    const { t } = useTranslation()
 
-    const login = (<Button color="inherit"><NavLink className={classes.Button} to="/login">Login</NavLink></Button>)
-    const logout = (<Button onClick={reset} color="inherit">Log Out</Button>)
+
+    const login = (<Button color="inherit"><NavLink className={classes.Button} to="/login">{t('Login')}</NavLink></Button>)
+    const logout = (<Button onClick={reset} color="inherit">{t('Log Out')}</Button>)
     const dispatch = useDispatch()
 
 
@@ -56,8 +54,6 @@ function NavBarComponent() {
                     <img style={{ width: '40px' }} src='../middlogo.png' alt="Middlebury logo" />
                     <NavLink style={{ textDecoration: 'none', color: 'white' }} to="/">MSCAMS</NavLink>
                 </Typography>
-                <Button className={classes.Button} onClick={() => changeLanguage('zh')}>zh</Button>
-                <Button className={classes.Button} onClick={() => changeLanguage('en')}>en</Button>
                 {user ? logout : login}
             </Toolbar>
         </AppBar>
